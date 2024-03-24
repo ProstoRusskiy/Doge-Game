@@ -58,25 +58,54 @@
       z-index: 998;
       pointer-events: none;
     }
+
+    .coin {
+      position: fixed;
+      top: 50px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .game-over {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      display: none;
+    }
+
+    .kfc {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 200px;
+      height: auto;
+      z-index: 998;
+      pointer-events: none;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="menu" id="menu">
-    <span class="menu-item" id="play">Играть</span>
-    <span class="menu-item" id="credits">Создатели</span>
+    <span class="menu-item" id="play">Play</span>
+    <span class="menu-item" id="credits">Credits</span>
   </div>
 
   <img class="chips-img" src="https://w7.pngwing.com/pngs/391/563/png-transparent-nachos-cheese-fries-doritos-tortilla-chip-corn-chip-corn-chip-food-cheese-snack.png" alt="Chips Image">
 
-  <div class="contain">
-    <div class="ss"></div>
-    <div class="ss"></div>
-    <div class="ss"></div>
-  </div>
-
   <div class="doge-container" id="doge-container">
     <img class="doge-gif" src="https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif" alt="Doge GIF">
   </div>
+
+  <div class="coin" id="coin"></div>
+  <div class="game-over" id="game-over">GAME OVER! YOUR DOGE DIED DUE TO HUNGER :(</div>
+  <img class="kfc" id="kfc" src="https://i.pinimg.com/564x/b1/17/71/b11771d251efe326b40279d40f41157d.jpg" alt="KFC Image">
 
   <script>
     window.onload = function() {
@@ -84,6 +113,10 @@
       var dogeGif = document.querySelector('.doge-gif');
       var isDragging = false;
       var offsetX, offsetY;
+      var coins = 0;
+      var coin = document.getElementById('coin');
+      var gameOver = document.getElementById('game-over');
+      var kfc = document.getElementById('kfc');
 
       dogeContainer.addEventListener('mousedown', function(event) {
         isDragging = true;
@@ -145,13 +178,40 @@
         }, 10000);
       }, 20000);
 
+      function gameTimer() {
+        setInterval(function() {
+          coins++;
+          coin.style.display = 'block';
+          setTimeout(function() {
+            coin.style.display = 'none';
+          }, 5000);
+        }, 2000);
+
+        setInterval(function() {
+          if (coins < 2) {
+            gameOver.style.display = 'block';
+          }
+        }, 40000);
+
+        setInterval(function() {
+          kfc.style.display = 'block';
+          dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+          setTimeout(function() {
+            
+            kfc.style.display = 'none';
+            dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/d
+                        }, 5000);
+        }, 40000);
+      }
+
       document.getElementById('credits').addEventListener('click', function() {
-        alert('Создатели: Назар');
+        alert('Creators: Nazar');
       });
 
       document.getElementById('play').addEventListener('click', function() {
         document.getElementById('menu').style.display = 'none';
-        alert('Игра началась!');
+        alert('The game has started!');
+        gameTimer();
       });
     };
   </script>
