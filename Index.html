@@ -60,34 +60,34 @@
     }
 
     .coin {
-      position: fixed;
-      top: 50px;
-      left: 20px;
-      width: 50px;
-      height: 50px;
+      width: 20px;
+      height: 20px;
       background-color: yellow;
       border-radius: 50%;
-      display: none;
+      position: absolute;
+      cursor: pointer;
+      border: 2px solid orange;
     }
 
-    .game-over {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      display: none;
+    .coin-text {
+      color: green;
+      position: absolute;
+      right: 0;
+      animation: animateText 1s forwards;
+      font-weight: bold;
     }
 
-    .kfc {
+    @keyframes animateText {
+      0% { opacity: 1; top: 0; right: 0; }
+      50% { opacity: 1; top: -20px; right: 20px; }
+      100% { opacity: 0; top: -40px; right: 40px; }
+    }
+
+    #score {
       position: fixed;
       top: 20px;
-      right: 20px;
-      width: 200px;
-      height: auto;
-      z-index: 998;
-      pointer-events: none;
-      display: none;
+      left: 20px;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -97,26 +97,26 @@
     <span class="menu-item" id="credits">Credits</span>
   </div>
 
+  <div id="score">Денег: <span id="money">0</span></div>
+
   <img class="chips-img" src="https://w7.pngwing.com/pngs/391/563/png-transparent-nachos-cheese-fries-doritos-tortilla-chip-corn-chip-corn-chip-food-cheese-snack.png" alt="Chips Image">
 
   <div class="doge-container" id="doge-container">
     <img class="doge-gif" src="https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif" alt="Doge GIF">
   </div>
 
-  <div class="coin" id="coin"></div>
-  <div class="game-over" id="game-over">GAME OVER! YOUR DOGE DIED DUE TO HUNGER :(</div>
-  <img class="kfc" id="kfc" src="https://i.pinimg.com/564x/b1/17/71/b11771d251efe326b40279d40f41157d.jpg" alt="KFC Image">
-
   <script>
-    window.onload = function() {
+    document.getElementById('play').addEventListener('click', function() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('score').style.display = 'block';
+
+      var money = 0;
+      var score = document.getElementById('money');
+
       var dogeContainer = document.getElementById('doge-container');
       var dogeGif = document.querySelector('.doge-gif');
       var isDragging = false;
       var offsetX, offsetY;
-      var coins = 0;
-      var coin = document.getElementById('coin');
-      var gameOver = document.getElementById('game-over');
-      var kfc = document.getElementById('kfc');
 
       dogeContainer.addEventListener('mousedown', function(event) {
         isDragging = true;
@@ -178,43 +178,44 @@
         }, 10000);
       }, 20000);
 
-      function gameTimer() {
-        setInterval(function() {
-          coins++;
-          coin.style.display = 'block';
-          setTimeout(function() {
-            coin.style.display = 'none';
-          }, 5000);
-        }, 2000);
+      setInterval(function() {
+        var coin =
+document.createElement('div');
+        coin.className = 'coin';
+        coin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
+        coin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
+        var coinText = document.createElement('span');
+        coinText.className = 'coin-text';
+        coinText.textContent = '+5';
+        coin.appendChild(coinText);
+        document.body.appendChild(coin);
 
-        setInterval(function() {
-          if (coins < 2) {
-            gameOver.style.display = 'block';
-          }
-        }, 40000);
+        setTimeout(function() {
+          coin.remove();
+        }, 3000);
 
-        setInterval(function() {
-          kfc.style.display = 'block';
-          dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-          setTimeout(function() {
-            
-            kfc.style.display = 'none';
-            dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/d
-                        }, 5000);
-        }, 40000);
-      }
-
-      document.getElementById('credits').addEventListener('click', function() {
-        alert('Creators: Nazar');
-      });
-
-      document.getElementById('play').addEventListener('click', function() {
-        document.getElementById('menu').style.display = 'none';
-        alert('The game has started!');
-        gameTimer();
-      });
-    };
+        coin.addEventListener('click', function() {
+          money += 5;
+          score.textContent = money;
+          var plus5 = document.createElement('div');
+          plus5.textContent = '+5';
+          plus5.className = 'coin-text';
+          plus5.style.top = coin.style.top;
+          plus5.style.left = coin.style.left;
+          document.body.appendChild(plus5);
+          var animatePlus5 = setInterval(function() {
+            var currentTop = parseInt(plus5.style.top);
+            if (currentTop > 0) {
+              plus5.style.top = (currentTop - 1) + 'px';
+            } else {
+              plus5.remove();
+              clearInterval(animatePlus5);
+            }
+          }, 10);
+          coin.remove();
+        });
+      }, 2000);
+    });
   </script>
 </body>
 </html>
-
