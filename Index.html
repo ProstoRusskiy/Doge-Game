@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="menu" id="menu">
+    <span class="menu-item" id="play">Play</span>
+    <span class="menu-item" id="credits">Credits</span>
+    <span class="menu-item" id="change-language">Change Language</span>
+  </div>
+
+  <img class="chips-img" src="https://w7.pngwing.com/pngs/391/563/png-transparent-nachos-cheese-fries-doritos-tortilla-chip-corn-chip-corn-chip-food-cheese-snack.png" alt="Chips Image">
+
+  <div class="doge-container" id="doge-container">
+    <img class="doge-gif" src="https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif" alt="Doge GIF">
+  </div>
+
+  <script>
+    window.onload = function() {
+      var dogeContainer = document.getElementById('doge-container');
+      var dogeGif = document.querySelector('.doge-gif');
+      var isDragging = false;
+      var offsetX, offsetY;
+
+      dogeContainer.addEventListener('mousedown', function(event) {
+        isDragging = true;
+        offsetX = event.clientX - dogeContainer.getBoundingClientRect().left;
+        offsetY = event.clientY - dogeContainer.getBoundingClientRect().top;
+      });
+
+      window.addEventListener('mouseup', function() {
+        isDragging = false;
+      });
+
+      window.addEventListener('mousemove', function(event) {
+        if (isDragging) {
+          var x = event.clientX - offsetX;
+          var y = event.clientY - offsetY;
+          x = Math.max(0, Math.min(x, window.innerWidth - dogeContainer.offsetWidth));
+          y = Math.max(0, Math.min(y, window.innerHeight - dogeContainer.offsetHeight));
+          dogeContainer.style.left = x + 'px';
+          dogeContainer.style.top = y + 'px';
+        }
+      });
+
+      var speed = 1;
+      var dx = 1;
+      var dy = 1;
+
+      function moveDoge() {
+        var x = parseInt(dogeContainer.style.left) || 0;
+        var y = parseInt(dogeContainer.style.top) || 0;
+
+        if (x + dogeContainer.offsetWidth >= window.innerWidth || x <= 0) {
+          dx *= -1;
+          speed = Math.random() * (3 - 1) + 1;
+        }
+        if (y + dogeContainer.offsetHeight >= window.innerHeight || y <= 0) {
+          dy *= -1;
+          speed = Math.random() * (3 - 1) + 1;
+        }
+
+        x += dx * speed;
+        y += dy * speed;
+
+        dogeContainer.style.left = x + 'px';
+        dogeContainer.style.top = y + 'px';
+
+        requestAnimationFrame(moveDoge);
+      }
+
+      moveDoge();
+
+      function changeDogeGif(newSrc) {
+        dogeGif.src = newSrc;
+      }
+
+      setInterval(function() {
+        changeDogeGif("https://i.pinimg.com/originals/7b/af/b3/7bafb31d8fea62a749744f143e632aa7.gif");
+        setTimeout(function() {
+          changeDogeGif("https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif");
+        }, 10000);
+      }, 20000);
+
+      document.getElementById('credits').addEventListener('click', function() {
+        alert('Credits: ProstoRusskiy');
+      });
+
+      document.getElementById('play').addEventListener('click', function() {
+        document.getElementById('menu').style.display = 'none';
+        alert('The game has started!');
+      });
+
+      document.getElementById('change-language').addEventListener('click', function() {
+        alert('Language changed!');
+      });
+    };
+  </script>
+</body>
+</html>
