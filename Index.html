@@ -4,15 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f1f1f1;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .menu-item {
+      display: inline-block;
+      margin-right: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      color: #4CAF50;
+    }
+
+    .doge-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: move;
+      transition: transform 0.3s;
+      z-index: 999;
+    }
+
+    .doge-gif {
+      width: 110px;
+      height: auto;
+    }
+
+    .chips-img {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 200px;
+      height: auto;
+      z-index: 998;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
   <div class="menu" id="menu">
-    <span class="menu-item" id="play">Play</span>
-    <span class="menu-item" id="credits">Credits</span>
-    <span class="menu-item" id="change-language">Change Language</span>
+    <span class="menu-item" id="play">Играть</span>
+    <span class="menu-item" id="credits">Создатели</span>
   </div>
 
   <img class="chips-img" src="https://w7.pngwing.com/pngs/391/563/png-transparent-nachos-cheese-fries-doritos-tortilla-chip-corn-chip-corn-chip-food-cheese-snack.png" alt="Chips Image">
+
+  <div class="contain">
+    <div class="ss"></div>
+    <div class="ss"></div>
+    <div class="ss"></div>
+  </div>
 
   <div class="doge-container" id="doge-container">
     <img class="doge-gif" src="https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif" alt="Doge GIF">
@@ -86,18 +146,15 @@
       }, 20000);
 
       document.getElementById('credits').addEventListener('click', function() {
-        alert('Credits: ProstoRusskiy');
+        alert('Создатели: Назар');
       });
 
       document.getElementById('play').addEventListener('click', function() {
         document.getElementById('menu').style.display = 'none';
-        alert('The game has started!');
-      });
-
-      document.getElementById('change-language').addEventListener('click', function() {
-        alert('Language changed!');
+        alert('Игра началась!');
       });
     };
   </script>
 </body>
 </html>
+
