@@ -11,29 +11,6 @@
       font-family: Arial, sans-serif;
     }
 
-    .menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #f1f1f1;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-      text-align: center;
-    }
-
-    .menu-item {
-      display: inline-block;
-      margin-right: 20px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .menu-item:hover {
-      color: #4CAF50;
-    }
-
     .doge-container {
       position: fixed;
       top: 50%;
@@ -47,16 +24,6 @@
     .doge-gif {
       width: 110px;
       height: auto;
-    }
-
-    .chips-img {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 200px;
-      height: auto;
-      z-index: 998;
-      pointer-events: none;
     }
 
     .coin {
@@ -89,133 +56,264 @@
       left: 20px;
       font-size: 18px;
     }
+
+    #shop {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: blue;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .kfc-img {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+    }
+
+    .hunger-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 200px;
+      height: 20px;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .hunger-bar-fill {
+      height: 100%;
+      background-color: green;
+      transition: width 1s;
+    }
+
+    .game-over {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      color: red;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="menu" id="menu">
-    <span class="menu-item" id="play">Play</span>
-    <span class="menu-item" id="credits">Credits</span>
-  </div>
-
   <div id="score">Денег: <span id="money">0</span></div>
-
-  <img class="chips-img" src="https://w7.pngwing.com/pngs/391/563/png-transparent-nachos-cheese-fries-doritos-tortilla-chip-corn-chip-corn-chip-food-cheese-snack.png" alt="Chips Image">
-
+<div id="shop" style="position: fixed; top: 50%; transform: translateY(-50%); right: 20px;">Shop</div>
+  <div class="kfc-img">
+    <img src="https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png" alt="KFC" width="100">
+    <div>Цена: 20 монет</div>
+    <button id="buyBtn" style="background-color: blue; color: white; padding: 5px 10px; border-radius: 5px;">Приобрести</button>
+  </div>
   <div class="doge-container" id="doge-container">
     <img class="doge-gif" src="https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif" alt="Doge GIF">
   </div>
+  <div class="hunger-bar">
+    <div class="hunger-bar-fill"></div>
+  </div>
+  <div class="game-over">GAME OVER! YOUR DOGE DIED OF HUNGER</div>
 
   <script>
-    document.getElementById('play').addEventListener('click', function() {
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById('score').style.display = 'block';
+    var money = 0;
+    var score = document.getElementById('money');
+    var dogeContainer = document.getElementById('doge-container');
+    var dogeGif = document.querySelector('.doge-gif');
+    var hungerBarFill = document.querySelector('.hunger-bar-fill');
+    var gameOver = document.querySelector('.game-over');
+    var lastCoinSpawned = Date.now();
 
-      var money = 0;
-      var score = document.getElementById('money');
+    
+    var initialX = (window.innerWidth - dogeContainer.offsetWidth) / 2;
+    var initialY = (window.innerHeight - dogeContainer.offsetHeight) / 2;
+    dogeContainer.style.left = initialX + 'px';
+    dogeContainer.style.top = initialY + 'px';
 
-      var dogeContainer = document.getElementById('doge-container');
-      var dogeGif = document.querySelector('.doge-gif');
-      var isDragging = false;
-      var offsetX, offsetY;
+    var isDragging = false;
+    var offsetX, offsetY;
+    var shopOpen = false;
 
-      dogeContainer.addEventListener('mousedown', function(event) {
-        isDragging = true;
-        offsetX = event.clientX - dogeContainer.getBoundingClientRect().left;
-        offsetY = event.clientY - dogeContainer.getBoundingClientRect().top;
-      });
+    dogeContainer.addEventListener('mousedown', function(event) {
+      isDragging = true;
+      offsetX = event.clientX - dogeContainer.getBoundingClientRect().left;
+      offsetY = event.clientY - dogeContainer.getBoundingClientRect().top;
+    });
 
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
+    window.addEventListener('mouseup', function() {
+      isDragging = false;
+    });
 
-      window.addEventListener('mousemove', function(event) {
-        if (isDragging) {
-          var x = event.clientX - offsetX;
-          var y = event.clientY - offsetY;
-          x = Math.max(0, Math.min(x, window.innerWidth - dogeContainer.offsetWidth));
-          y = Math.max(0, Math.min(y, window.innerHeight - dogeContainer.offsetHeight));
-          dogeContainer.style.left = x + 'px';
-          dogeContainer.style.top = y + 'px';
-        }
-      });
-
-      var speed = 1;
-      var dx = 1;
-      var dy = 1;
-
-      function moveDoge() {
-        var x = parseInt(dogeContainer.style.left) || 0;
-        var y = parseInt(dogeContainer.style.top) || 0;
-
-        if (x + dogeContainer.offsetWidth >= window.innerWidth || x <= 0) {
-          dx *= -1;
-          speed = Math.random() * (3 - 1) + 1;
-        }
-        if (y + dogeContainer.offsetHeight >= window.innerHeight || y <= 0) {
-          dy *= -1;
-          speed = Math.random() * (3 - 1) + 1;
-        }
-
-        x += dx * speed;
-        y += dy * speed;
-
+    window.addEventListener('mousemove', function(event) {
+      if (isDragging) {
+        var x = event.clientX - offsetX;
+        var y = event.clientY - offsetY;
+        x = Math.max(0, Math.min(x, window.innerWidth - dogeContainer.offsetWidth));
+        y = Math.max(0, Math.min(y, window.innerHeight - dogeContainer.offsetHeight));
+       
         dogeContainer.style.left = x + 'px';
         dogeContainer.style.top = y + 'px';
-
-        requestAnimationFrame(moveDoge);
       }
 
-      moveDoge();
+    });
 
-      function changeDogeGif(newSrc) {
-        dogeGif.src = newSrc;
+    var speed = 1;
+    var dx = 1;
+    var dy = 1;
+
+    function moveDoge() {
+      var x = parseInt(dogeContainer.style.left) || 0;
+      var y = parseInt(dogeContainer.style.top) || 0;
+
+      if (x + dogeContainer.offsetWidth >= window.innerWidth || x <= 0) {
+        dx *= -1;
+        speed = Math.random() * (3 - 1) + 1;
+      }
+      if (y + dogeContainer.offsetHeight >= window.innerHeight || y <= 0) {
+        dy *= -1;
+        speed = Math.random() * (3 - 1) + 1;
       }
 
-      setInterval(function() {
-        changeDogeGif("https://i.pinimg.com/originals/7b/af/b3/7bafb31d8fea62a749744f143e632aa7.gif");
-        setTimeout(function() {
-          changeDogeGif("https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif");
-        }, 10000);
-      }, 20000);
+      x += dx * speed;
+      y += dy * speed;
 
-      setInterval(function() {
-        var coin =
-document.createElement('div');
-        coin.className = 'coin';
-        coin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
-        coin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
-        var coinText = document.createElement('span');
-        coinText.className = 'coin-text';
-        coinText.textContent = '+5';
-        coin.appendChild(coinText);
-        document.body.appendChild(coin);
+      dogeContainer.style.left = x + 'px';
+      dogeContainer.style.top = y + 'px';
 
-        setTimeout(function() {
-          coin.remove();
-        }, 3000);
+      requestAnimationFrame(moveDoge);
+    }
 
-        coin.addEventListener('click', function() {
-          money += 5;
-          score.textContent = money;
-          var plus5 = document.createElement('div');
-          plus5.textContent = '+5';
-          plus5.className = 'coin-text';
-          plus5.style.top = coin.style.top;
-          plus5.style.left = coin.style.left;
-          document.body.appendChild(plus5);
-          var animatePlus5 = setInterval(function() {
-            var currentTop = parseInt(plus5.style.top);
-            if (currentTop > 0) {
-              plus5.style.top = (currentTop - 1) + 'px';
-            } else {
-              plus5.remove();
-              clearInterval(animatePlus5);
-            }
-          }, 10);
-          coin.remove();
+    moveDoge();
+
+    function spawnCoin() {
+      var coin = document.createElement('div');
+      coin.className = 'coin';
+      coin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
+      coin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
+      var coinText = document.createElement('span');
+      coinText.className = 'coin-text';
+      coinText.textContent = '+5';
+      coin.appendChild(coinText);
+      document.body.appendChild(coin);
+
+      setTimeout(function() {
+        coin.remove();
+      }, 3000);
+
+      coin.addEventListener('click', function() {
+        money += 5;
+        score.textContent = money;
+        var plus5 = document.createElement('div');
+        plus5.textContent = '+5';
+        plus5.className = 'coin-text';
+        plus5.style.top = coin.style.top;
+        plus5.style.left = coin.style.left;
+        document.body.appendChild(plus5);
+        var animatePlus5 = setInterval(function() {
+          var currentTop = parseInt(plus5.style.top);
+          if (currentTop > 0) {
+            plus5.style.top = (currentTop - 1) + 'px';
+          } else {
+            plus5.remove();
+            clearInterval(animatePlus5);
+          }
+        }, 10);
+        coin.remove();
+      });
+    }
+
+    setInterval(function() {
+      if (Date.now() - lastCoinSpawned >= 2000) {
+        spawnCoin();
+        lastCoinSpawned = Date.now();
+      }
+    }, 1000);
+
+    document.getElementById('shop').addEventListener('click', function() {
+      if (!shopOpen) {
+        document.querySelector('.kfc-img').style.display = 'block';
+        shopOpen = true;
+      } else {
+        document.querySelector('.kfc-img').style.display = 'none';
+        shopOpen = false;
+      }
+    });
+
+    var hungerLevel = 5;
+
+    setInterval(function() {
+      if (!shopOpen) {
+        hungerLevel -= 1;
+        updateHungerBar();
+        if (hungerLevel <= 0) {
+          endGame();
+        }
+      }
+    }, 10000);
+
+    function updateHungerBar() {
+      hungerBarFill.style.width = (hungerLevel * 20) + '%';
+      if (hungerLevel <= 1) {
+        hungerBarFill.style.backgroundColor = 'red';
+      } else {
+        hungerBarFill.style.backgroundColor = 'green';
+      }
+    }
+
+    function endGame() {
+      gameOver.style.display = 'block';
+      setTimeout(function() {
+        location.reload();
+      }, 3000);
+    }
+
+    document.getElementById('buyBtn').addEventListener('click', function() {
+      var kfcCost = 20;
+
+      if (money >= kfcCost) {
+        document.querySelector('.kfc-img').style.display = 'none';
+        money -= kfcCost;
+        score.textContent = money;
+        var kfc = document.createElement('img');
+        kfc.src = 'https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png';
+        kfc.width = 100;
+        kfc.style.position = 'fixed';
+        kfc.style.top = '20px';
+        kfc.style.right = '20px';
+        document.body.appendChild(kfc);
+        var eatenCount = 0;
+
+
+        kfc.addEventListener('click', function() {
+          if (eatenCount < 2) {
+            eatenCount++;
+            hungerLevel = 5;
+            updateHungerBar();
+
+
+            dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+
+
+            setTimeout(function() {
+              dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+            }, 5000);
+          } else {
+            kfc.remove();
+            dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+          }
         });
-      }, 2000);
+
+
+
+      } else {
+        alert('Недостаточно денег для покупки KFC!');
+      }
     });
   </script>
 </body>
+
 </html>
