@@ -113,7 +113,7 @@
 </div>
   <div id="score">Money: <span id="money">0</span></div>
 <div id="shop" style="position: fixed; top: 50%; transform: translateY(-50%); right: 20px;">Shop</div>
-<div class="kfc-img">
+<div class="kfc-img" id="kfcImg" style="display: none; position: fixed; top: 20px; right: 20px;">
     <img src="https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png" alt="KFC" width="100">
     <div>Price: 20 coins</div>
     <button id="buyBtn" style="background-color: blue; color: white; padding: 5px 10px; border-radius: 5px;">Buy</button>
@@ -330,11 +330,12 @@ setInterval(function() {
       }, 3000);
     }
 
-    document.getElementById('buyBtn').addEventListener('click', function() {
+document.getElementById('buyBtn').addEventListener('click', function() {
     var kfcCost = 20;
 
     if (money >= kfcCost) {
-        document.querySelector('.kfc-img').style.display = 'none';
+        var kfcImg = document.getElementById('kfcImg');
+        kfcImg.style.display = 'block';
         money -= kfcCost;
         score.textContent = money;
         var kfc = document.createElement('img');
@@ -373,6 +374,7 @@ setInterval(function() {
         alert('Not enough money to buy KFC!');
     }
 });
+
 
   </script>
 </body>
