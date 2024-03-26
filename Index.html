@@ -130,6 +130,7 @@
     var hungerBarFill = document.querySelector('.hunger-bar-fill');
     var gameOver = document.querySelector('.game-over');
     var lastCoinSpawned = Date.now();
+    var isEating = false;
 
     function spawnRareCoin() {
       var chance = Math.random() * 100; 
@@ -289,14 +290,15 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
       }
     }, 10000);
 
-    function updateHungerBar() {
-      hungerBarFill.style.width = (hungerLevel * 20) + '%';
-      if (hungerLevel <= 1) {
-        hungerBarFill.style.backgroundColor = 'red';
-      } else {
-        hungerBarFill.style.backgroundColor = 'green';
-      }
+function updateHunger() {
+  if (!isEating && hungerLevel > 0) {
+    hungerLevel -= 1;
+    updateHungerBar();
+    if (hungerLevel <= 0) {
+      endGame();
     }
+  }
+}
 
     function endGame() {
       gameOver.style.display = 'block';
@@ -323,23 +325,23 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
 
 
         kfc.addEventListener('click', function() {
-          if (eatenCount < 2) {
-            eatenCount++;
-            hungerLevel = 5;
-            updateHungerBar();
+  if (eatenCount < 2) {
+    eatenCount++;
+    isEating = true; 
+    hungerLevel = 5;
+    updateHungerBar();
 
+    dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
 
-            dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
-
-
-            setTimeout(function() {
-              dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-            }, 5000);
-          } else {
-            kfc.remove();
-            dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
-          }
-        });
+    setTimeout(function() {
+      dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+      isEating = false; 
+    }, 5000);
+  } else {
+    kfc.remove();
+    dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+  }
+});
 
 
 
