@@ -236,6 +236,24 @@
       }
     }, 1000);
 
+     function spawnRareCoin() {
+      var chance = Math.random() * 100; 
+
+      if (chance < 1) { 
+        var rareCoin = document.querySelector('.rare-coin');
+        rareCoin.style.display = 'block';
+        rareCoin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
+        rareCoin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
+
+        setTimeout(function() {
+          rareCoin.style.display = 'none';
+        }, 3000); 
+      }
+    }
+
+
+    setInterval(spawnRareCoin, 1000);
+
     document.getElementById('shop').addEventListener('click', function() {
       if (!shopOpen) {
         document.querySelector('.kfc-img').style.display = 'block';
