@@ -117,8 +117,8 @@
     <img src="https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png" alt="KFC" width="100">
     <div>Price: 20 coins</div>
     <button id="buyBtn" style="background-color: blue; color: white; padding: 5px 10px; border-radius: 5px;">Buy</button>
+    <div id="clickHere" style="display: block;">Click here</div>
 </div>
-<div id="clickHere" style="display: none; position: fixed; bottom: 20px; right: 20px;">Click here</div>
 
   </div>
 </div>
@@ -360,8 +360,6 @@ document.getElementById('buyBtn').addEventListener('click', function() {
                     dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
                     isEating = false; 
                 }, 5000);
-
-                document.getElementById('clickHere').style.display = 'block';
             } else {
                 kfc.remove();
                 dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
@@ -374,6 +372,7 @@ document.getElementById('buyBtn').addEventListener('click', function() {
         alert('Not enough money to buy KFC!');
     }
 });
+
 
 
   </script>
