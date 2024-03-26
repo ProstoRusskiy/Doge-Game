@@ -291,10 +291,10 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     }, 10000);
 
 function updateHunger() {
-  if (!isEating && hungerLevel > 0) { 
+  if (hungerLevel > 0) {
     hungerLevel -= 1;
     updateHungerBar();
-    if (hungerLevel <= 0) {
+    if (hungerLevel === 0) {
       endGame();
     }
   }
@@ -327,22 +327,29 @@ function updateHunger() {
         kfc.addEventListener('click', function() {
   if (eatenCount < 2) {
     eatenCount++;
+    hungerLevel = 5; 
+    updateHungerBar(); 
     isEating = true; 
-    hungerLevel = 5;
-    updateHungerBar();
 
     dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
 
     setTimeout(function() {
       dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-      isEating = false;
+      isEating = false; 
     }, 5000);
   } else {
     kfc.remove();
     dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
-    isEating = false;
+    isEating = false; 
   }
 });
+
+
+setInterval(function() {
+  if (!isEating) { 
+    updateHunger(); 
+  }
+}, 10000)
 
 
 
