@@ -111,15 +111,15 @@
 <div class="rare-coin" style="display: none; position: absolute; top: 0; left: 0;">
   <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Illuminati-Logo.png" alt="Rare Coin" width="40" style="display: block;">
 </div>
-  <div id="score">Денег: <span id="money">0</span></div>
+  <div id="score">Money: <span id="money">0</span></div>
 <div id="shop" style="position: fixed; top: 50%; transform: translateY(-50%); right: 20px;">Shop</div>
-  <div class="kfc-img">
+<div class="kfc-img">
   <img src="https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png" alt="KFC" width="100">
-  <div>Цена: 20 монет</div>
-  <button id="buyBtn" style="background-color: blue; color: white; padding: 5px 10px; border-radius: 5px;">Приобрести</button>
-  <div style="text-align: center; margin-top: 10px;">
-    <span>CLICK HERE</span><br>
-    <img src="https://image.flaticon.com/icons/png/512/25/25256.png" alt="Arrow Up" width="30">
+  <div>Price: 20 money</div>
+  <button id="buyBtn" style="background-color: blue; color: white; padding: 5px 10px; border-radius: 5px;">Buy</button>
+  <div id="clickHere" style="text-align: center; margin-top: 10px; display: none;">CLICK HERE</div>
+</div>
+
   </div>
 </div>
 
@@ -331,21 +331,22 @@ setInterval(function() {
     }
 
     document.getElementById('buyBtn').addEventListener('click', function() {
-      var kfcCost = 20;
+  var kfcCost = 20;
 
-      if (money >= kfcCost) {
-        document.querySelector('.kfc-img').style.display = 'none';
-        money -= kfcCost;
-        score.textContent = money;
-        var kfc = document.createElement('img');
-        kfc.src = 'https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png';
-        kfc.width = 100;
-        kfc.style.position = 'fixed';
-        kfc.style.top = '20px';
-        kfc.style.right = '20px';
-        document.body.appendChild(kfc);
-        var eatenCount = 0;
+  if (money >= kfcCost) {
+    document.querySelector('.kfc-img').style.display = 'none';
+    money -= kfcCost;
+    score.textContent = money;
+    var kfc = document.createElement('img');
+    kfc.src = 'https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png';
+    kfc.width = 100;
+    kfc.style.position = 'fixed';
+    kfc.style.top = '20px';
+    kfc.style.right = '20px';
+    document.body.appendChild(kfc);
+    var eatenCount = 0;
 
+    document.getElementById('clickHere').style.display = 'block'; 
 
         kfc.addEventListener('click', function() {
   if (eatenCount < 2) {
