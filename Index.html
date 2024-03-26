@@ -331,61 +331,49 @@ setInterval(function() {
     }
 
     document.getElementById('buyBtn').addEventListener('click', function() {
-  var kfcCost = 20;
+    var kfcCost = 20;
 
-  if (money >= kfcCost) {
-    document.querySelector('.kfc-img').style.display = 'none';
-    money -= kfcCost;
-    score.textContent = money;
-    var kfc = document.createElement('img');
-    kfc.src = 'https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png';
-    kfc.width = 100;
-    kfc.style.position = 'fixed';
-    kfc.style.top = '20px';
-    kfc.style.right = '20px';
-    document.body.appendChild(kfc);
-    var eatenCount = 0;
+    if (money >= kfcCost) {
+        document.querySelector('.kfc-img').style.display = 'none';
+        money -= kfcCost;
+        score.textContent = money;
+        var kfc = document.createElement('img');
+        kfc.src = 'https://pngimg.com/uploads/kfc_food/kfc_food_PNG2.png';
+        kfc.width = 100;
+        kfc.style.position = 'fixed';
+        kfc.style.top = '20px';
+        kfc.style.right = '20px';
+        document.body.appendChild(kfc);
+        var eatenCount = 0;
 
-    document.getElementById('clickHere').style.display = 'block'; 
+        kfc.addEventListener('click', function() {
+            if (eatenCount < 2) {
+                eatenCount++;
+                hungerLevel = 5; 
+                updateHungerBar(); 
+                isEating = true; 
 
-kfc.addEventListener('click', function() {
-    if (eatenCount < 2) {
-        eatenCount++;
-        hungerLevel = 5; 
-        updateHungerBar(); 
-        isEating = true; 
+                dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
 
-        dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+                setTimeout(function() {
+                    dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+                    isEating = false; 
+                }, 5000);
 
-        setTimeout(function() {
-            dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-            isEating = false; 
-        }, 5000);
+                document.getElementById('clickHere').style.display = 'block';
+            } else {
+                kfc.remove();
+                dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+                isEating = false; 
+                document.getElementById('clickHere').style.display = 'none';
+            }
+        });
 
-        document.getElementById('clickHere').style.display = 'block';
     } else {
-        kfc.remove();
-        dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
-        isEating = false; 
-        document.getElementById('clickHere').style.display = 'none';
+        alert('Not enough money to buy KFC!');
     }
 });
 
-
-
-setInterval(function() {
-  if (!isEating) { 
-    updateHungerBar(); 
-  }
-}, 10000);
-
-
-
-
-      } else {
-        alert('Not enough money to buy KFC!');
-      }
-    });
   </script>
 </body>
 
