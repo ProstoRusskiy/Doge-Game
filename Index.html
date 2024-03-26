@@ -226,6 +226,25 @@
       });
     }
 
+
+function collectRareCoin() {
+  money += 1000; 
+  score.textContent = money;
+  
+  dogeGif.src = 'https://i.pinimg.com/originals/51/5a/c0/515ac0c4415f5e1727585a659583113b.gif';
+  setTimeout(function() {
+    dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+  }, 5000); 
+}
+
+
+document.querySelector('.rare-coin').addEventListener('click', function() {
+  collectRareCoin();
+  
+  this.style.display = 'none';
+});
+
+    
     setInterval(function() {
       if (Date.now() - lastCoinSpawned >= 2000) {
         spawnCoin();
