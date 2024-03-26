@@ -131,6 +131,37 @@
     var gameOver = document.querySelector('.game-over');
     var lastCoinSpawned = Date.now();
 
+    function spawnRareCoin() {
+      var chance = Math.random() * 100; 
+
+      if (chance < 1) { 
+        var rareCoin = document.querySelector('.rare-coin');
+        rareCoin.style.display = 'block';
+        rareCoin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
+        rareCoin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
+
+        setTimeout(function() {
+          rareCoin.style.display = 'none';
+        }, 3000); 
+      }
+    }
+    
+    setInterval(spawnRareCoin, 1000);
+
+    function collectRareCoin() {
+  money += 1000; 
+  score.textContent = money;
+  dogeGif.src = 'https://i.pinimg.com/originals/51/5a/c0/515ac0c4415f5e1727585a659583113b.gif';
+  setTimeout(function() {
+    dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+  }, 5000);
+}
+
+document.querySelector('.rare-coin').addEventListener('click', function() {
+  collectRareCoin();
+  this.style.display = 'none';
+});
+
     
     var initialX = (window.innerWidth - dogeContainer.offsetWidth) / 2;
     var initialY = (window.innerHeight - dogeContainer.offsetHeight) / 2;
@@ -235,38 +266,6 @@
         lastCoinSpawned = Date.now();
       }
     }, 1000);
-
-     function spawnRareCoin() {
-      var chance = Math.random() * 100; 
-
-      if (chance < 1) { 
-        var rareCoin = document.querySelector('.rare-coin');
-        rareCoin.style.display = 'block';
-        rareCoin.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
-        rareCoin.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
-
-        setTimeout(function() {
-          rareCoin.style.display = 'none';
-        }, 3000); 
-      }
-    }
-    
-    setInterval(spawnRareCoin, 1000);
-
-function collectRareCoin() {
-  money += 1000; 
-  score.textContent = money;
-  dogeGif.src = 'https://i.pinimg.com/originals/51/5a/c0/515ac0c4415f5e1727585a659583113b.gif';
-  setTimeout(function() {
-    dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-  }, 5000);
-}
-
-document.querySelector('.rare-coin').addEventListener('click', function() {
-  collectRareCoin();
-  this.style.display = 'none';
-});
-
 
     document.getElementById('shop').addEventListener('click', function() {
       if (!shopOpen) {
