@@ -302,13 +302,11 @@ function updateHungerBar() {
 }
 
 setInterval(function() {
-  if (!shopOpen) {
-    hungerLevel -= 1;
-    console.log('Decreased hunger level to:', hungerLevel);
-    updateHungerBar();
-    if (hungerLevel <= 0) {
-      endGame();
-    }
+  console.log('Decreased hunger level to:', hungerLevel);
+  hungerLevel -= 1;
+  updateHungerBar();
+  if (hungerLevel <= 0) {
+    endGame();
   }
 }, 10000);
 
