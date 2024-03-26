@@ -104,6 +104,10 @@
   </style>
 </head>
 <body>
+<audio id="snoopAudio">
+  <source src="https://www.opendrive.com/s/ODFfNzc1NzQ4NDVfeUUxS3o/snoop.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 <div class="rare-coin" style="display: none; position: absolute; top: 0; left: 0;">
   <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Illuminati-Logo.png" alt="Rare Coin" width="40" style="display: block;">
 </div>
@@ -150,13 +154,16 @@
     setInterval(spawnRareCoin, 1000);
 
     function collectRareCoin() {
-  money += 1000; 
+  money += 1000;
   score.textContent = money;
   dogeGif.src = 'https://i.pinimg.com/originals/51/5a/c0/515ac0c4415f5e1727585a659583113b.gif';
+  var snoopAudio = document.getElementById('snoopAudio');
+  snoopAudio.play();
   setTimeout(function() {
     dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
   }, 5000);
 }
+
 
 document.querySelector('.rare-coin').addEventListener('click', function() {
   collectRareCoin();
