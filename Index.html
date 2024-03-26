@@ -348,25 +348,29 @@ setInterval(function() {
 
     document.getElementById('clickHere').style.display = 'block'; 
 
-        kfc.addEventListener('click', function() {
-  if (eatenCount < 2) {
-    eatenCount++;
-    hungerLevel = 5; 
-    updateHungerBar(); 
-    isEating = true; 
+kfc.addEventListener('click', function() {
+    if (eatenCount < 2) {
+        eatenCount++;
+        hungerLevel = 5; 
+        updateHungerBar(); 
+        isEating = true; 
 
-    dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+        dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
 
-    setTimeout(function() {
-      dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-      isEating = false; 
-    }, 5000);
-  } else {
-    kfc.remove();
-    dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
-    isEating = false; 
-  }
+        setTimeout(function() {
+            dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
+            isEating = false; 
+        }, 5000);
+
+        document.getElementById('clickHere').style.display = 'block';
+    } else {
+        kfc.remove();
+        dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+        isEating = false; 
+        document.getElementById('clickHere').style.display = 'none';
+    }
 });
+
 
 
 setInterval(function() {
