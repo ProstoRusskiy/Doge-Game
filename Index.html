@@ -291,7 +291,6 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
         kfcImg.style.display = 'block';
         shopOpen = true;
         clickHere.style.display = 'none';
-  
     } else {
         kfcImg.style.display = 'none';
         shopOpen = false;
@@ -299,10 +298,11 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     }
 
 
-    if (isKfcBought) {
+    if (isKfcBought && shopOpen) {
         kfcImg.style.display = 'none';
     }
 });
+
 
 
     var hungerLevel = 5;
