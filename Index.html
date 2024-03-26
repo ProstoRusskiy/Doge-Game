@@ -290,11 +290,17 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     if (!shopOpen) {
         kfcImg.style.display = 'block';
         shopOpen = true;
-        clickHere.style.display = 'none'; // скрываем надпись "Click here" при открытии магазина
+        clickHere.style.display = 'none';
+  
     } else {
         kfcImg.style.display = 'none';
         shopOpen = false;
-        clickHere.style.display = 'block'; // показываем надпись "Click here" при закрытии магазина
+        clickHere.style.display = 'block'; 
+    }
+
+
+    if (isKfcBought) {
+        kfcImg.style.display = 'none';
     }
 });
 
