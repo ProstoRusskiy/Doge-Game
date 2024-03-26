@@ -280,26 +280,38 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
 
     var hungerLevel = 5;
 
-    setInterval(function() {
-      if (!shopOpen) {
-        hungerLevel -= 1;
-        updateHungerBar();
-        if (hungerLevel <= 0) {
-          endGame();
-        }
-      }
-    }, 10000);
-
-function updateHunger() {
-  if (hungerLevel > 0) {
+setInterval(function() {
+  if (!shopOpen) {
     hungerLevel -= 1;
     updateHungerBar();
-    if (hungerLevel === 0) {
+    if (hungerLevel <= 0) {
       endGame();
     }
   }
-  updateHungerBar(); 
+}, 10000);
+
+
+function updateHungerBar() {
+  console.log('Updating hunger bar with hungerLevel:', hungerLevel);
+  hungerBarFill.style.width = (hungerLevel * 20) + '%';
+  if (hungerLevel <= 1) {
+    hungerBarFill.style.backgroundColor = 'red';
+  } else {
+    hungerBarFill.style.backgroundColor = 'green';
+  }
 }
+
+setInterval(function() {
+  if (!shopOpen) {
+    hungerLevel -= 1;
+    console.log('Decreased hunger level to:', hungerLevel);
+    updateHungerBar();
+    if (hungerLevel <= 0) {
+      endGame();
+    }
+  }
+}, 10000);
+
 
     function endGame() {
       gameOver.style.display = 'block';
