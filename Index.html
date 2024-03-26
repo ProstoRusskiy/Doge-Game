@@ -290,14 +290,13 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     if (!shopOpen) {
         kfcImg.style.display = 'block';
         shopOpen = true;
-        clickHere.style.display = 'none';
+        clickHere.style.display = 'none'; 
     } else {
         kfcImg.style.display = 'none';
         shopOpen = false;
         clickHere.style.display = 'block'; 
     }
-
-
+      
     if (isKfcBought && shopOpen) {
         kfcImg.style.display = 'none';
     }
