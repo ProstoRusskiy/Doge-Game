@@ -104,9 +104,6 @@
   </style>
 </head>
 <body>
-<div class="rare-coin" style="display: none; position: absolute; top: 0; left: 0;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Illuminati-Logo.png" alt="Rare Coin" width="40" style="display: block;">
-</div>
   <div id="score">Денег: <span id="money">0</span></div>
 <div id="shop" style="position: fixed; top: 50%; transform: translateY(-50%); right: 20px;">Shop</div>
   <div class="kfc-img">
@@ -228,25 +225,6 @@
         coin.remove();
       });
     }
-
-
-function collectRareCoin() {
-  money += 1000; 
-  score.textContent = money;
-  
-  dogeGif.src = 'https://i.pinimg.com/originals/51/5a/c0/515ac0c4415f5e1727585a659583113b.gif';
-  setTimeout(function() {
-    dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-  }, 5000); 
-}
-
-
-document.querySelector('.rare-coin').addEventListener('click', function() {
-  collectRareCoin();
-  
-  this.style.display = 'none';
-});
-
     
     setInterval(function() {
       if (Date.now() - lastCoinSpawned >= 2000) {
