@@ -291,7 +291,7 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     }, 10000);
 
 function updateHunger() {
-  if (!isEating && hungerLevel > 0) {
+  if (!isEating && hungerLevel > 0) { 
     hungerLevel -= 1;
     updateHungerBar();
     if (hungerLevel <= 0) {
@@ -335,11 +335,12 @@ function updateHunger() {
 
     setTimeout(function() {
       dogeGif.src = 'https://media.tenor.com/9TsiJq--SsEAAAAi/doge-dance.gif';
-      isEating = false; 
+      isEating = false;
     }, 5000);
   } else {
     kfc.remove();
     dogeGif.src = 'https://media1.tenor.com/m/ohcrdIHBm_kAAAAC/chicken-doge.gif';
+    isEating = false;
   }
 });
 
