@@ -347,6 +347,8 @@ document.getElementById('buyBtn').addEventListener('click', function() {
         document.body.appendChild(kfc);
         var eatenCount = 0;
 
+        document.getElementById('clickHere').style.display = 'block';
+
         kfc.addEventListener('click', function() {
             if (eatenCount < 2) {
                 eatenCount++;
