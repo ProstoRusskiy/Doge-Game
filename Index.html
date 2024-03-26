@@ -284,14 +284,20 @@ document.querySelector('.rare-coin').addEventListener('click', function() {
     }, 1000);
 
     document.getElementById('shop').addEventListener('click', function() {
-      if (!shopOpen) {
-        document.querySelector('.kfc-img').style.display = 'block';
+    var kfcImg = document.getElementById('kfcImg');
+    var clickHere = document.getElementById('clickHere');
+
+    if (!shopOpen) {
+        kfcImg.style.display = 'block';
         shopOpen = true;
-      } else {
-        document.querySelector('.kfc-img').style.display = 'none';
+        clickHere.style.display = 'none'; // скрываем надпись "Click here" при открытии магазина
+    } else {
+        kfcImg.style.display = 'none';
         shopOpen = false;
-      }
-    });
+        clickHere.style.display = 'block'; // показываем надпись "Click here" при закрытии магазина
+    }
+});
+
 
     var hungerLevel = 5;
 
